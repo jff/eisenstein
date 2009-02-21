@@ -1,0 +1,242 @@
+Ei(0,0):
+	The characteristic function of 0: a(n) = 0^n. ( A000007 M0002 )
+Ei(0,1):
+	Triangle read by rows: T(n,k) = numerator of fraction in k-th term of n-th row of variant of Farey series. ( A049455 )
+Ei(0,2):
+	Sequence not found.
+Ei(0,3):
+	Sequence not found.
+Ei(0,4):
+	Sequence not found.
+Ei(0,5):
+	Sequence not found.
+Ei(0,6):
+	Sequence not found.
+Ei(0,7):
+	Sequence not found.
+Ei(0,8):
+	Sequence not found.
+Ei(0,9):
+	Sequence not found.
+Ei(0,10):
+	Sequence not found.
+Ei(1,0):
+	Stern's diatomic array read by rows (version 2). ( A070878 )
+Ei(1,1):
+	Triangle T(n,k) = denominator of fraction in k-th term of n-th row of variant of Farey series. This is also Stern's diatomic array read by rows (version 1). ( A049456 )
+Ei(1,2):
+	Eisenstein array Ei(1,2). ( A064881 )
+Ei(1,3):
+	Eisenstein array Ei(1,3). ( A064883 )
+Ei(1,4):
+	Sequence not found.
+Ei(1,5):
+	Sequence not found.
+Ei(1,6):
+	Sequence not found.
+Ei(1,7):
+	Sequence not found.
+Ei(1,8):
+	Sequence not found.
+Ei(1,9):
+	Sequence not found.
+Ei(1,10):
+	Sequence not found.
+Ei(2,0):
+	Sequence not found.
+Ei(2,1):
+	Eisenstein array Ei(2,1). ( A064882 )
+Ei(2,2):
+	Sequence not found.
+Ei(2,3):
+	Eisenstein array Ei(2,3). ( A064886 )
+Ei(2,4):
+	Sequence not found.
+Ei(2,5):
+	Sequence not found.
+Ei(2,6):
+	Sequence not found.
+Ei(2,7):
+	Sequence not found.
+Ei(2,8):
+	Sequence not found.
+Ei(2,9):
+	Sequence not found.
+Ei(2,10):
+	Sequence not found.
+Ei(3,0):
+	Sequence not found.
+Ei(3,1):
+	Eisenstein array Ei(3,1). ( A064884 )
+Ei(3,2):
+	Eisenstein array Ei(3,2). ( A064885 )
+Ei(3,3):
+	Sequence not found.
+Ei(3,4):
+	Sequence not found.
+Ei(3,5):
+	Sequence not found.
+Ei(3,6):
+	Sequence not found.
+Ei(3,7):
+	Sequence not found.
+Ei(3,8):
+	Sequence not found.
+Ei(3,9):
+	Sequence not found.
+Ei(3,10):
+	Sequence not found.
+Ei(4,0):
+	Sequence not found.
+Ei(4,1):
+	Sequence not found.
+Ei(4,2):
+	Sequence not found.
+Ei(4,3):
+	Sequence not found.
+Ei(4,4):
+	Sequence not found.
+Ei(4,5):
+	Sequence not found.
+Ei(4,6):
+	Sequence not found.
+Ei(4,7):
+	Sequence not found.
+Ei(4,8):
+	Sequence not found.
+Ei(4,9):
+	Sequence not found.
+Ei(4,10):
+	Sequence not found.
+Ei(5,0):
+	Sequence not found.
+Ei(5,1):
+	Sequence not found.
+Ei(5,2):
+	Sequence not found.
+Ei(5,3):
+	Sequence not found.
+Ei(5,4):
+	Sequence not found.
+Ei(5,5):
+	Sequence not found.
+Ei(5,6):
+	Sequence not found.
+Ei(5,7):
+	Sequence not found.
+Ei(5,8):
+	Sequence not found.
+Ei(5,9):
+	Sequence not found.
+Ei(5,10):
+	Sequence not found.
+Ei(6,0):
+	Sequence not found.
+Ei(6,1):
+	Sequence not found.
+Ei(6,2):
+	Sequence not found.
+Ei(6,3):
+	Sequence not found.
+Ei(6,4):
+	Sequence not found.
+Ei(6,5):
+	Sequence not found.
+Ei(6,6):
+	Sequence not found.
+Ei(6,7):
+	Sequence not found.
+Ei(6,8):
+	Sequence not found.
+Ei(6,9):
+	Sequence not found.
+Ei(6,10):
+	Sequence not found.
+Ei(7,0):
+	Sequence not found.
+Ei(7,1):
+	Sequence not found.
+Ei(7,2):
+	Sequence not found.
+Ei(7,3):
+	Sequence not found.
+Ei(7,4):
+	Sequence not found.
+Ei(7,5):
+	Sequence not found.
+Ei(7,6):
+	Sequence not found.
+Ei(7,7):
+	Sequence not found.
+Ei(7,8):
+	Sequence not found.
+Ei(7,9):
+	Sequence not found.
+Ei(7,10):
+	Sequence not found.
+Ei(8,0):
+	Sequence not found.
+Ei(8,1):
+	Sequence not found.
+Ei(8,2):
+	Sequence not found.
+Ei(8,3):
+	Sequence not found.
+Ei(8,4):
+	Sequence not found.
+Ei(8,5):
+	Sequence not found.
+Ei(8,6):
+	Sequence not found.
+Ei(8,7):
+	Sequence not found.
+Ei(8,8):
+	Sequence not found.
+Ei(8,9):
+	Sequence not found.
+Ei(8,10):
+	Sequence not found.
+Ei(9,0):
+	Sequence not found.
+Ei(9,1):
+	Sequence not found.
+Ei(9,2):
+	Sequence not found.
+Ei(9,3):
+	Sequence not found.
+Ei(9,4):
+	Sequence not found.
+Ei(9,5):
+	Sequence not found.
+Ei(9,6):
+	Sequence not found.
+Ei(9,7):
+	Sequence not found.
+Ei(9,8):
+	Sequence not found.
+Ei(9,9):
+	Sequence not found.
+Ei(9,10):
+	Sequence not found.
+Ei(10,0):
+	Sequence not found.
+Ei(10,1):
+	Sequence not found.
+Ei(10,2):
+	Sequence not found.
+Ei(10,3):
+	Sequence not found.
+Ei(10,4):
+	Sequence not found.
+Ei(10,5):
+	Sequence not found.
+Ei(10,6):
+	Sequence not found.
+Ei(10,7):
+	Sequence not found.
+Ei(10,8):
+	Sequence not found.
+Ei(10,9):
+	Sequence not found.
+Ei(10,10):
+	Sequence not found.
