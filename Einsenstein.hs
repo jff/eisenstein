@@ -1,9 +1,18 @@
 module Main where
 
-import EnumeratingRationals
 import Math.OEIS
 import Data.Maybe
+import Data.Ratio
 
+
+-- Eisenstein function
+ei :: Integer -> Integer -> [Integer]
+ei m n = m : eiloop 1 1 m n m n
+ where eiloop a 1 m n cm cn = n : cm : eiloop 1 (a+1) cm (a*cm+cn) cm cn
+       eiloop a b m n cm cn = let k = 2*floor(a%b)+1
+                              in  n: eiloop b (k*b-a) n (k*n-m) cm cn
+
+-- Number of elements to test against OEIS
 numElems :: Int
 numElems = 20
 
