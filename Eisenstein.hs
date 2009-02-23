@@ -19,10 +19,6 @@ numElems = 20
 list2string :: (Show a) => [a] -> String
 list2string = init . tail . show
 
-oeis' :: Integer -> Integer -> IO ()
-oeis' m n = do l <- lookupOEIS . list2string . (take numElems) $ ei m n
-               putStrLn $ "Ei(" ++ show m ++ "," ++ show n ++ "):\n\t" ++ (head l)
-
 oeis :: Integer -> Integer -> IO ()
 oeis m n = do s <- searchSequence_IO . list2string . (take numElems) $ ei m n
               r <- getDataSeq s
