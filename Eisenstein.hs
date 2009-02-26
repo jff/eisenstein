@@ -29,8 +29,8 @@ ei' m n = m : eiloop 1 1 m n m n
                               in  n: eiloop b (k*b-a) n (k*n-m) cm cn
 
 extnewman :: Integer -> Integer -> [Integer]
-extnewman cm cn = cm: loop 1 cm cn cm cn
- where loop r m n cm cn | n==cn = n: cm: loop (r+1) cm (r*cm+cn) cm cn
+extnewman cm cn = cm: loop 0 cm cn cm cn
+ where loop r m n cm cn | n==cn = n: cm: loop (r+1) cm ((r+1)*cm+cn) cm cn
                         | n/=cn = let k = 2*floor(m%n)+1
                                   in  n: loop r n (k*n-m) cm cn
 
