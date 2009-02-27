@@ -1,11 +1,9 @@
-module Main where
+module Eisenstein where
 
-import Math.OEIS
 import Data.Maybe
 import Data.Ratio
 
--- Newman's algorithm to list all positive rationals, 
--- including 0%1 and 1%0
+-- Newman's algorithm to list all positive rationals
 newman :: [Rational]
 newman = iterate nextCW $ 1%1
  where nextCW :: Rational -> Rational
@@ -33,23 +31,3 @@ extnewman cm cn = cm: loop 0 cm cn cm cn
  where loop r m n cm cn | ((m==(cm+r*cn)) && (n==cn)) = n: cm: loop (r+1) cm ((r+1)*cm+cn) cm cn
                         | otherwise                   = let k = 2*floor(m%n)+1
                                                         in  n: loop r n (k*n-m) cm cn
-
-
--- Number of elements to test against OEIS
-numElems :: Int
-numElems = 20
-
-list2string :: (Show a) => [a] -> String
-list2string = init . tail . show
-
-oeis :: Integer -> Integer -> IO ()
-oeis m n = do s <- searchSequence_IO . list2string . (take numElems) $ ei m n
-              r <- getDataSeq s
-              putStrLn $ "Ei(" ++ show m ++ "," ++ show n ++ "):\n\t" ++ r
-
-getDataSeq :: (Maybe OEISSequence) -> (IO String)
-getDataSeq Nothing    = return "Sequence not found."
-getDataSeq (Just seq) = return $ (description seq) ++ " ( " ++ (concatMap (++ " ") (catalogNums seq)) ++ ")"
-
-main :: IO ()
-main = sequence_ [oeis a b | a <- [0..100], b <- [0..100]]
