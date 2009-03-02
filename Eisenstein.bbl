@@ -1,0 +1,24 @@
+\begin{thebibliography}{1}
+
+\bibitem{jff*08:rationals}
+Roland Backhouse and Jo\~{a}o~F. Ferreira.
+\newblock Recounting the rationals: Twice!
+\newblock volume 5133, pages 79--91, 2008.
+
+\bibitem{jff*09:euclid-alg}
+Roland Backhouse and Jo\~{a}o~F. Ferreira.
+\newblock On {E}uclid's algorithm and elementary number theory.
+\newblock 2009.
+
+\bibitem{sloane-integers}
+Neil J.~A. Sloane.
+\newblock The {O}n-{L}ine {E}ncyclopedia of {I}nteger {S}equences.
+\newblock \url{http://www.research.att.com/~njas/sequences/ }.
+
+\bibitem{stern1858:rationals}
+Moritz~A. Stern.
+\newblock \"{U}eber eine zahlentheoretische {F}unktion.
+\newblock {\em Journal f\"{u}r die reine und angewandte Mathematik},
+  55:193--220, 1858.
+
+\end{thebibliography}

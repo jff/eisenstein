@@ -1,0 +1,430 @@
+\documentclass{article}[12pt]
+
+\usepackage{beton,url}
+
+%% ODER: format ==         = "\mathrel{==}"
+%% ODER: format /=         = "\neq "
+%
+%
+\makeatletter
+\@ifundefined{lhs2tex.lhs2tex.sty.read}%
+  {\@namedef{lhs2tex.lhs2tex.sty.read}{}%
+   \newcommand\SkipToFmtEnd{}%
+   \newcommand\EndFmtInput{}%
+   \long\def\SkipToFmtEnd#1\EndFmtInput{}%
+  }\SkipToFmtEnd
+
+\newcommand\ReadOnlyOnce[1]{\@ifundefined{#1}{\@namedef{#1}{}}\SkipToFmtEnd}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\DeclareFontFamily{OT1}{cmtex}{}
+\DeclareFontShape{OT1}{cmtex}{m}{n}
+  {<5><6><7><8>cmtex8
+   <9>cmtex9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmtex10}{}
+\DeclareFontShape{OT1}{cmtex}{m}{it}
+  {<-> ssub * cmtt/m/it}{}
+\newcommand{\texfamily}{\fontfamily{cmtex}\selectfont}
+\DeclareFontShape{OT1}{cmtt}{bx}{n}
+  {<5><6><7><8>cmtt8
+   <9>cmbtt9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmbtt10}{}
+\DeclareFontShape{OT1}{cmtex}{bx}{n}
+  {<-> ssub * cmtt/bx/n}{}
+\newcommand{\tex}[1]{\text{\texfamily#1}}	% NEU
+
+\newcommand{\Sp}{\hskip.33334em\relax}
+
+
+\newcommand{\Conid}[1]{\mathit{#1}}
+\newcommand{\Varid}[1]{\mathit{#1}}
+\newcommand{\anonymous}{\kern0.06em \vbox{\hrule\@width.5em}}
+\newcommand{\plus}{\mathbin{+\!\!\!+}}
+\newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
+\newcommand{\rbind}{\mathbin{=\mkern-6.7mu<\!\!\!<}}% suggested by Neil Mitchell
+\newcommand{\sequ}{\mathbin{>\!\!\!>}}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\usepackage{polytable}
+
+%mathindent has to be defined
+\@ifundefined{mathindent}%
+  {\newdimen\mathindent\mathindent\leftmargini}%
+  {}%
+
+\def\resethooks{%
+  \global\let\SaveRestoreHook\empty
+  \global\let\ColumnHook\empty}
+\newcommand*{\savecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\savecolumns[#1]}}
+\newcommand*{\restorecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\restorecolumns[#1]}}
+\newcommand*{\aligncolumn}[2]%
+  {\g@addto@macro\ColumnHook{\column{#1}{#2}}}
+
+\resethooks
+
+\newcommand{\onelinecommentchars}{\quad-{}- }
+\newcommand{\commentbeginchars}{\enskip\{-}
+\newcommand{\commentendchars}{-\}\enskip}
+
+\newcommand{\visiblecomments}{%
+  \let\onelinecomment=\onelinecommentchars
+  \let\commentbegin=\commentbeginchars
+  \let\commentend=\commentendchars}
+
+\newcommand{\invisiblecomments}{%
+  \let\onelinecomment=\empty
+  \let\commentbegin=\empty
+  \let\commentend=\empty}
+
+\visiblecomments
+
+\newlength{\blanklineskip}
+\setlength{\blanklineskip}{0.66084ex}
+
+\newcommand{\hsindent}[1]{\quad}% default is fixed indentation
+\let\hspre\empty
+\let\hspost\empty
+\newcommand{\NB}{\textbf{NB}}
+\newcommand{\Todo}[1]{$\langle$\textbf{To do:}~#1$\rangle$}
+
+\EndFmtInput
+\makeatother
+%
+%
+%
+%
+%
+%
+% This package provides two environments suitable to take the place
+% of hscode, called "plainhscode" and "arrayhscode". 
+%
+% The plain environment surrounds each code block by vertical space,
+% and it uses \abovedisplayskip and \belowdisplayskip to get spacing
+% similar to formulas. Note that if these dimensions are changed,
+% the spacing around displayed math formulas changes as well.
+% All code is indented using \leftskip.
+%
+% Changed 19.08.2004 to reflect changes in colorcode. Should work with
+% CodeGroup.sty.
+%
+\ReadOnlyOnce{polycode.fmt}%
+\makeatletter
+
+\newcommand{\hsnewpar}[1]%
+  {{\parskip=0pt\parindent=0pt\par\vskip #1\noindent}}
+
+% can be used, for instance, to redefine the code size, by setting the
+% command to \small or something alike
+\newcommand{\hscodestyle}{}
+
+% The command \sethscode can be used to switch the code formatting
+% behaviour by mapping the hscode environment in the subst directive
+% to a new LaTeX environment.
+
+\newcommand{\sethscode}[1]%
+  {\expandafter\let\expandafter\hscode\csname #1\endcsname
+   \expandafter\let\expandafter\endhscode\csname end#1\endcsname}
+
+% "compatibility" mode restores the non-polycode.fmt layout.
+
+\newenvironment{compathscode}%
+  {\par\noindent
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\compaths}{\sethscode{compathscode}}
+
+% "plain" mode is the proposed default.
+% It should now work with \centering.
+% This required some changes. The old version
+% is still available for reference as oldplainhscode.
+
+\newenvironment{plainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newenvironment{oldplainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+% Here, we make plainhscode the default environment.
+
+\newcommand{\plainhs}{\sethscode{plainhscode}}
+\newcommand{\oldplainhs}{\sethscode{oldplainhscode}}
+\plainhs
+
+% The arrayhscode is like plain, but makes use of polytable's
+% parray environment which disallows page breaks in code blocks.
+
+\newenvironment{arrayhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\parray}%
+  {\endparray\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newcommand{\arrayhs}{\sethscode{arrayhscode}}
+
+% The mathhscode environment also makes use of polytable's parray 
+% environment. It is supposed to be used only inside math mode 
+% (I used it to typeset the type rules in my thesis).
+
+\newenvironment{mathhscode}%
+  {\parray}{\endparray}
+
+\newcommand{\mathhs}{\sethscode{mathhscode}}
+
+% texths is similar to mathhs, but works in text mode.
+
+\newenvironment{texthscode}%
+  {\(\parray}{\endparray\)}
+
+\newcommand{\texths}{\sethscode{texthscode}}
+
+% The framed environment places code in a framed box.
+
+\def\codeframewidth{\arrayrulewidth}
+\RequirePackage{calc}
+
+\newenvironment{framedhscode}%
+  {\parskip=\abovedisplayskip\par\noindent
+   \hscodestyle
+   \arrayrulewidth=\codeframewidth
+   \tabular{@{}|p{\linewidth-2\arraycolsep-2\arrayrulewidth-2pt}|@{}}%
+   \hline\framedhslinecorrect\\{-1.5ex}%
+   \let\endoflinesave=\\
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \framedhslinecorrect\endoflinesave{.5ex}\hline
+   \endtabular
+   \parskip=\belowdisplayskip\par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\framedhslinecorrect}[2]%
+  {#1[#2]}
+
+\newcommand{\framedhs}{\sethscode{framedhscode}}
+
+% The inlinehscode environment is an experimental environment
+% that can be used to typeset displayed code inline.
+
+\newenvironment{inlinehscode}%
+  {\(\def\column##1##2{}%
+   \let\>\undefined\let\<\undefined\let\\\undefined
+   \newcommand\>[1][]{}\newcommand\<[1][]{}\newcommand\\[1][]{}%
+   \def\fromto##1##2##3{##3}%
+   \def\nextline{}}{\) }%
+
+\newcommand{\inlinehs}{\sethscode{inlinehscode}}
+
+% The joincode environment is a separate environment that
+% can be used to surround and thereby connect multiple code
+% blocks.
+
+\newenvironment{joincode}%
+  {\let\orighscode=\hscode
+   \let\origendhscode=\endhscode
+   \def\endhscode{\def\hscode{\endgroup\def\@currenvir{hscode}\\}\begingroup}
+   %\let\SaveRestoreHook=\empty
+   %\let\ColumnHook=\empty
+   %\let\resethooks=\empty
+   \orighscode\def\hscode{\endgroup\def\@currenvir{hscode}}}%
+  {\origendhscode
+   \global\let\hscode=\orighscode
+   \global\let\endhscode=\origendhscode}%
+
+\makeatother
+\EndFmtInput
+%
+
+
+\def\prompt#1{\noindent$\gg$ #1}
+
+\title{Enumerating the Elements of the Eisenstein Array}
+\author{
+   Roland Backhouse \\{\tt\small rcb@cs.nott.ac.uk} 
+   \and 
+   Jo\~ao F. Ferreira \\{\tt\small joao@joaoff.com}
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+In \cite{jff*09:euclid-alg}, we discuss several algorithms that enumerate the elements of the Eisenstein 
+Array \cite{stern1858:rationals}. In this document we show and discuss several Haskell implementations of these algorithms.
+\end{abstract}
+
+
+\section{The Eisenstein Array}
+Given two natural numbers $m$ and $n$, Stern \cite{stern1858:rationals} describes a process 
+(which he attributes to Eisenstein) of generating an infinite  sequence of rows of numbers.  
+The \emph{zeroth}  row in the sequence (``nullte Entwickelungsreihe'') is the given pair of numbers:
+
+\begin{displaymath}
+m\ \ \ \ \ n\mbox{\ \ \ .}
+\end{displaymath}
+
+Subsequent rows are obtained by inserting between every pair of numbers the sum of the numbers.  Thus
+the \emph{first} row is
+
+\begin{displaymath}
+m\ \ \ \ \ \ m{+}n\ \ \ \ \ \ n 
+\end{displaymath}
+
+and the \emph{second} row is
+
+\begin{displaymath}
+m\ \ \ \ \ \ 2{\times}m + n\ \ \ \ \ \ m{+}n\ \ \ \ \ \ m + 2{\times}n\ \ \ \ \ \ n~~. 
+\end{displaymath}
+
+The process of constructing such rows is repeated indefinitely.  The sequence of numbers obtained by
+concatenating the individual rows in order is what is now called the \emph{Eisenstein array} and denoted by
+ $\mathit{Ei\/}(m{,}n)$ (see, for example, \cite[sequence A064881]{sloane-integers}) .  
+Stern refers to each occurrence of a number  in rows other than the
+zeroth row as either  a 
+\emph{sum element} (``Summenglied'')  or a  \emph{source element} (``Stammglied'').    The sum elements are the
+newly added numbers.  For example, in the first row the
+number $m{+}n$ is a sum element; in the second row the number $m{+}n$ is a  source element. 
+
+
+
+\section{Newman's Algorithm}
+An interesting question is whether Stern also documents the algorithm currently attributed to
+Moshe Newman for enumerating the elements of $\mathit{Ei\/}(1{,}1)$ \cite[section 4.2.3]{jff*09:euclid-alg}. 
+Newman's algorithm predicts that each triple of numbers in a given row of 
+$\mathit{Ei\/}(1{,}1)$ has the form
+
+\begin{displaymath}
+a\ \ \ \ \ \ \ b\ \ \ \ \ \ \ (2{}\left\lfloor{\displaystyle\frac{a}{b}}\right\rfloor + 1){\times}b - a\ \ \ \ .
+\end{displaymath}
+
+In \cite[appendix A]{jff*08:rationals}, we have implemented Newman's algorithm as follows.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{21}{@{}>{\hspre}c<{\hspost}@{}}%
+\column{21E}{@{}l@{}}%
+\column{24}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{29}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{36}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{cwnEnum}\mathbin{::}[\mskip1.5mu \Conid{Rational}\mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\Varid{cwnEnum}\mathrel{=}\Varid{iterate}\;\Varid{nextCW}\ \mathrm{1}/\mathrm{1}{}\<[E]%
+\\
+\>[3]{}\hsindent{1}{}\<[4]%
+\>[4]{}\mathbf{where}\;{}\<[11]%
+\>[11]{}\Varid{nextCW}\mathbin{::}\Conid{Rational}\to \Conid{Rational}{}\<[E]%
+\\
+\>[11]{}\Varid{nextCW}\;\Varid{r}{}\<[21]%
+\>[21]{}\mathrel{=}{}\<[21E]%
+\>[24]{}\mathbf{let}\;{}\<[29]%
+\>[29]{}(\Varid{n},\Varid{m}){}\<[36]%
+\>[36]{}\mathrel{=}(\Varid{numerator}\;\Varid{r},\Varid{denominator}\;\Varid{r}){}\<[E]%
+\\
+\>[29]{}\Varid{j}{}\<[36]%
+\>[36]{}\mathrel{=}\lfloor\Varid{n}/\Varid{m}\rfloor{}\<[E]%
+\\
+\>[24]{}\mathbf{in}\;{}\<[29]%
+\>[29]{}\Varid{m}/((\mathrm{2}\mskip-4mu\times\mskip-4mu\Varid{j}\mathbin{+}\mathrm{1})\mskip-4mu\times\mskip-4mu\Varid{m}\mathbin{-}\Varid{n}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+For the purpose of this document, we are interested in the elements of $\mathit{Ei\/}(1{,}1)$, i.e.,
+in the sequence of numerators given by \ensuremath{\Varid{cwnEnum}}. Function \ensuremath{\Varid{newman}} enumerates the elements of
+$\mathit{Ei\/}(1{,}1)$, using the infinite list created by \ensuremath{\Varid{cwnEnum}} (we have to detect a change in level).
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{21}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{45}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{newman}\mathbin{::}[\mskip1.5mu \Conid{Integer}\mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\Varid{newman}\mathrel{=}\Varid{concatMap}\;\Varid{dlevel}\;\Varid{cwnEnum}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{where}\;\Varid{dlevel}\;\Varid{r}{}\<[21]%
+\>[21]{}\mid (\Varid{denominator}\;\Varid{r})==\mathrm{1}{}\<[45]%
+\>[45]{}\mathrel{=}[\mskip1.5mu \Varid{numerator}\;\Varid{r},\mathrm{1}\mskip1.5mu]{}\<[E]%
+\\
+\>[21]{}\mid \Varid{otherwise}{}\<[45]%
+\>[45]{}\mathrel{=}[\mskip1.5mu \Varid{numerator}\;\Varid{r}\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\section{Enumerating the Elements of $\mathit{Ei\/}(m{,}n)$}
+One way of enumerating the elements of the array $\mathit{Ei\/}(m{,}n)$ is:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{35}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{39}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{ei}\mathbin{::}\Conid{Integer}\to \Conid{Integer}\to [\mskip1.5mu \Conid{Integer}\mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\Varid{ei}\;\Varid{m}\;\Varid{n}\mathrel{=}\Varid{m}\mathbin{:}\Varid{eiloop}\;\mathrm{1}\;\mathrm{1}\;\Varid{m}\;\Varid{n}\;\Varid{m}\;\Varid{n}{}\<[E]%
+\\
+\>[3]{}\hsindent{1}{}\<[4]%
+\>[4]{}\mathbf{where}\;{}\<[11]%
+\>[11]{}\Varid{eiloop}\;\Varid{a}\;\mathrm{1}\;\Varid{m}\;\Varid{n}\;\Varid{cm}\;\Varid{cn}\mathrel{=}{}\<[35]%
+\>[35]{}\Varid{n}\mathbin{:}\Varid{cm}\mathbin{:}\Varid{eiloop}\;\mathrm{1}\;(\Varid{a}\mathbin{+}\mathrm{1})\;\Varid{cm}\;(\Varid{a}\mskip-4mu\times\mskip-4mu\Varid{cm}\mathbin{+}\Varid{cn})\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\\
+\>[11]{}\Varid{eiloop}\;\Varid{a}\;\Varid{b}\;\Varid{m}\;\Varid{n}\;\Varid{cm}\;\Varid{cn}\mathrel{=}{}\<[35]%
+\>[35]{}\mathbf{let}\;\Varid{k}\mathrel{=}\mathrm{2}\mskip-4mu\times\mskip-4mu\lfloor\Varid{a}/\Varid{b}\rfloor\mathbin{+}\mathrm{1}{}\<[E]%
+\\
+\>[35]{}\mathbf{in}\;{}\<[39]%
+\>[39]{}\Varid{n}\mathbin{:}\Varid{eiloop}\;\Varid{b}\;(\Varid{k}\mskip-4mu\times\mskip-4mu\Varid{b}\mathbin{-}\Varid{a})\;\Varid{n}\;(\Varid{k}\mskip-4mu\times\mskip-4mu\Varid{n}\mathbin{-}\Varid{m})\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+We can test if the function \ensuremath{\Varid{newman}} is in fact enumerating the elements of $\mathit{Ei\/}(1{,}1)$.
+Let's compare the first $1000$ elements of both enumerations:
+
+\medskip
+\prompt{(take 1000 newman) == (take 1000 (ei 1 1))}\\
+\ensuremath{\Conid{True}}\\
+\prompt{(take 1000 (map (2*) newman)) == (take 1000 (ei 2 2))}\\
+\ensuremath{\Conid{True}}\\
+%\prompt{(take 1000 (map ((-2)*) newman)) == (take 1000 (ei (-2) (-2)))}\\
+%\eval{(take 1000 (map ((-2)*) newman)) == (take 1000 (ei (-2) (-2)))}\\
+
+The part after the prompt, $\gg$, is the Haskell code that \texttt{ghci} is executing. The result is shown in
+the subsequent line. The second command shows an instance of the property:
+
+\[
+\ensuremath{\Varid{map}\;(\Varid{k}\mskip-4mu\times\mskip-4mu)\;\Varid{newman}==\Varid{ei}\;\Varid{k}\;\Varid{k}} ~~~~~.
+\]
+
+
+\bibliographystyle{plain}
+\bibliography{math,jff}
+\end{document}
