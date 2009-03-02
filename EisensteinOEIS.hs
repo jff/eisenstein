@@ -6,7 +6,7 @@
 --
 module Main where
 
---import Math.OEIS
+import Math.OEIS
 import Data.Maybe
 import Data.Ratio
 
