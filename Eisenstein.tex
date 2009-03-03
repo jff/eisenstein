@@ -1,6 +1,6 @@
 \documentclass{article}[12pt]
 
-\usepackage{beton,url}
+\usepackage{beton,url,a4wide}
 
 %% ODER: format ==         = "\mathrel{==}"
 %% ODER: format /=         = "\neq "
@@ -421,8 +421,88 @@ The part after the prompt, $\gg$, is the Haskell code that \texttt{ghci} is exec
 the subsequent line. The second command shows an instance of the property:
 
 \[
-\ensuremath{\Varid{map}\;(\Varid{k}\mskip-4mu\times\mskip-4mu)\;\Varid{newman}==\Varid{ei}\;\Varid{k}\;\Varid{k}} ~~~~~.
+\ensuremath{\Varid{map}\;(\Varid{k}\mskip-4mu\times\mskip-4mu)\;(\Varid{ei}\;\mathrm{1}\;\mathrm{1})==\Varid{ei}\;\Varid{k}\;\Varid{k}} ~~~~~.
 \]
+
+%TODO: Conclude this part
+A property that we have not yet proved is that we can replace \ensuremath{\Varid{a}} and \ensuremath{\Varid{b}} by \ensuremath{\Varid{m}} and \ensuremath{\Varid{n}} in the calculation of \ensuremath{\Varid{k}} (when \ensuremath{\Varid{m}} and \ensuremath{\Varid{n}} are both positive).
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{35}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{39}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{ei'}\mathbin{::}\Conid{Integer}\to \Conid{Integer}\to [\mskip1.5mu \Conid{Integer}\mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\Varid{ei'}\;\Varid{m}\;\Varid{n}\mathrel{=}\Varid{m}\mathbin{:}\Varid{eiloop}\;\mathrm{1}\;\mathrm{1}\;\Varid{m}\;\Varid{n}\;\Varid{m}\;\Varid{n}{}\<[E]%
+\\
+\>[3]{}\hsindent{1}{}\<[4]%
+\>[4]{}\mathbf{where}\;{}\<[11]%
+\>[11]{}\Varid{eiloop}\;\Varid{a}\;\mathrm{1}\;\Varid{m}\;\Varid{n}\;\Varid{cm}\;\Varid{cn}\mathrel{=}{}\<[35]%
+\>[35]{}\Varid{n}\mathbin{:}\Varid{cm}\mathbin{:}\Varid{eiloop}\;\mathrm{1}\;(\Varid{a}\mathbin{+}\mathrm{1})\;\Varid{cm}\;(\Varid{a}\mskip-4mu\times\mskip-4mu\Varid{cm}\mathbin{+}\Varid{cn})\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\\
+\>[11]{}\Varid{eiloop}\;\Varid{a}\;\Varid{b}\;\Varid{m}\;\Varid{n}\;\Varid{cm}\;\Varid{cn}\mathrel{=}{}\<[35]%
+\>[35]{}\mathbf{let}\;\Varid{k}\mathrel{=}\mathrm{2}\mskip-4mu\times\mskip-4mu\lfloor\Varid{m}/\Varid{n}\rfloor\mathbin{+}\mathrm{1}{}\<[E]%
+\\
+\>[35]{}\mathbf{in}\;{}\<[39]%
+\>[39]{}\Varid{n}\mathbin{:}\Varid{eiloop}\;\Varid{b}\;(\Varid{k}\mskip-4mu\times\mskip-4mu\Varid{b}\mathbin{-}\Varid{a})\;\Varid{n}\;(\Varid{k}\mskip-4mu\times\mskip-4mu\Varid{n}\mathbin{-}\Varid{m})\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+We now define the function \ensuremath{\Varid{test}}, which compares the first $1000$ elements of two enumerations of $\mathit{Ei\/}(m{,}n)$, with $0{\leq}m{\leq}x$ and $1{\leq}n{\leq}x$ :
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{test}\;\Varid{f}\;\Varid{g}\;\Varid{x}\mathrel{=}\Varid{and}\;[\mskip1.5mu \Varid{take}\;\mathrm{1000}\;(\Varid{f}\;\Varid{m}\;\Varid{n})==\Varid{take}\;\mathrm{1000}\;(\Varid{g}\;\Varid{m}\;\Varid{n})\mid \Varid{m}\leftarrow [\mskip1.5mu \mathrm{0}\mathinner{\ldotp\ldotp}\Varid{x}\mskip1.5mu],\Varid{n}\leftarrow [\mskip1.5mu \mathrm{1}\mathinner{\ldotp\ldotp}\Varid{x}\mskip1.5mu]\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+We can use \ensuremath{\Varid{test}} to see if the first $1000$ elements of \ensuremath{\Varid{ei}\;\Varid{m}\;\Varid{n}} and \ensuremath{\Varid{ei'}\;\Varid{m}\;\Varid{n}},
+for $0{\leq}m{\leq}100$ and $1{\leq}n{\leq}100$, are the same (we are testing $10100$ pairs).
+
+\medskip
+\prompt{test ei ei' 100}\\
+\ensuremath{\Conid{True}}\\ %eval takes too long! But I've checked it (02/03/2009)
+%\eval{test ei ei' 100}
+
+The function \ensuremath{\Varid{extnewman}}, defined below, is the same as \ensuremath{\Varid{ei}}, but it replaces variables \ensuremath{\Varid{a}} and \ensuremath{\Varid{b}} by
+variable \ensuremath{\Varid{r}}:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{29}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{44}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{48}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{extnewman}\mathbin{::}\Conid{Integer}\to \Conid{Integer}\to [\mskip1.5mu \Conid{Integer}\mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\Varid{extnewman}\;\Varid{cm}\;\Varid{cn}\mathrel{=}\Varid{cm}\mathbin{:}\Varid{loop}\;\mathrm{0}\;\Varid{cm}\;\Varid{cn}\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\\
+\>[3]{}\hsindent{1}{}\<[4]%
+\>[4]{}\mathbf{where}\;{}\<[11]%
+\>[11]{}\Varid{loop}\;\Varid{r}\;\Varid{m}\;\Varid{n}\;\Varid{cm}\;\Varid{cn}{}\<[29]%
+\>[29]{}\mid ((\Varid{m}==(\Varid{cm}\mathbin{+}\Varid{r}\mskip-4mu\times\mskip-4mu\Varid{cn}))\mathrel{\wedge}(\Varid{n}==\Varid{cn}))\mathrel{=}{}\<[E]%
+\\
+\>[29]{}\hsindent{15}{}\<[44]%
+\>[44]{}\Varid{n}\mathbin{:}\Varid{cm}\mathbin{:}\Varid{loop}\;(\Varid{r}\mathbin{+}\mathrm{1})\;\Varid{cm}\;((\Varid{r}\mathbin{+}\mathrm{1})\mskip-4mu\times\mskip-4mu\Varid{cm}\mathbin{+}\Varid{cn})\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\\
+\>[29]{}\mid \Varid{otherwise}\mathrel{=}{}\<[44]%
+\>[44]{}\mathbf{let}\;\Varid{k}\mathrel{=}\mathrm{2}\mskip-4mu\times\mskip-4mu\lfloor\Varid{m}/\Varid{n}\rfloor\mathbin{+}\mathrm{1}{}\<[E]%
+\\
+\>[44]{}\mathbf{in}\;{}\<[48]%
+\>[48]{}\Varid{n}\mathbin{:}\Varid{loop}\;\Varid{r}\;\Varid{n}\;(\Varid{k}\mskip-4mu\times\mskip-4mu\Varid{n}\mathbin{-}\Varid{m})\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+We can do a similar test for \ensuremath{\Varid{extnewman}} as we did for \ensuremath{\Varid{ei'}}:
+
+\medskip
+\prompt{test ei extnewman 100}\\
+\ensuremath{\Conid{True}} %eval takes too long! But I've checked it (02/03/2009)
+%\eval{test ei extnewman 100}
+
 
 
 \bibliographystyle{plain}

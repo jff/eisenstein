@@ -1,6 +1,6 @@
 \documentclass{article}[12pt]
 
-\usepackage{beton,url}
+\usepackage{beton,url,a4wide}
 
 %include lhs2TeX.fmt
 %include lhs2TeX.sty
@@ -125,21 +125,32 @@ The part after the prompt, $\gg$, is the Haskell code that \texttt{ghci} is exec
 the subsequent line. The second command shows an instance of the property:
 
 \[
-|map (k*) newman == ei k k| ~~~~~.
+|map (k*) (ei 1 1) == ei k k| ~~~~~.
 \]
 
-%if False
-
-% These are tests. Ignore them.
-
-Replacing |a| and |b| by |m| and |n| in the calculation of |k| does not seem to affect
-the function.
+%TODO: Conclude this part
+A property that we have not yet proved is that we can replace |a| and |b| by |m| and |n| in the calculation of |k| (when |m| and |n| are both positive).
 
 > ei' :: Integer -> Integer -> [Integer]
 > ei' m n = m : eiloop 1 1 m n m n
 >  where  eiloop a 1 m n cm cn =  n : cm : eiloop 1 (a+1) cm (a*cm+cn) cm cn
 >         eiloop a b m n cm cn =  let k = 2*floor(m%n)+1
 >                                 in  n: eiloop b (k*b-a) n (k*n-m) cm cn
+
+We now define the function |test|, which compares the first $1000$ elements of two enumerations of $\mathit{Ei\/}(m{,}n)$, with $0{\leq}m{\leq}x$ and $1{\leq}n{\leq}x$ :
+
+> test f g x = and [take 1000 (f m n) == take 1000 (g m n) | m<-[0..x] , n<-[1..x]]
+
+We can use |test| to see if the first $1000$ elements of |ei m n| and |ei' m n|,
+for $0{\leq}m{\leq}100$ and $1{\leq}n{\leq}100$, are the same (we are testing $10100$ pairs).
+
+\medskip
+\prompt{test ei ei' 100}\\
+|True|\\ %eval takes too long! But I've checked it (02/03/2009)
+%\eval{test ei ei' 100}
+
+The function |extnewman|, defined below, is the same as |ei|, but it replaces variables |a| and |b| by
+variable |r|:
 
 > extnewman :: Integer -> Integer -> [Integer]
 > extnewman cm cn = cm: loop 0 cm cn cm cn
@@ -148,7 +159,14 @@ the function.
 >                           | otherwise =  let k = 2*floor(m%n)+1
 >                                          in  n: loop r n (k*n-m) cm cn
 
-%endif
+We can do a similar test for |extnewman| as we did for |ei'|:
+
+\medskip
+\prompt{test ei extnewman 100}\\
+|True| %eval takes too long! But I've checked it (02/03/2009)
+%\eval{test ei extnewman 100}
+
+
 
 \bibliographystyle{plain}
 \bibliography{math,jff}
