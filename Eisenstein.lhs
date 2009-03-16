@@ -1,6 +1,7 @@
-\documentclass{article}[12pt]
+\documentclass[leqno,fleqn,12pt]{article}
 
-\usepackage{beton,url,a4wide}
+\usepackage{euler,beton,concrete,url,a4wide}
+\usepackage[T1]{fontenc}
 
 %include lhs2TeX.fmt
 %include lhs2TeX.sty
@@ -37,6 +38,7 @@ Array \cite{stern1858:rationals}. In this document we show and discuss several H
 
 > import Data.Maybe
 > import Data.Ratio
+> import Math.OEIS
 
 %endif
 
@@ -165,6 +167,44 @@ We can do a similar test for |extnewman| as we did for |ei'|:
 \prompt{test ei extnewman 100}\\
 |True| %eval takes too long! But I've checked it (02/03/2009)
 %\eval{test ei extnewman 100}
+
+\section{The Online Encyclopedia of Integer Sequences}
+In this section, we show how we can use the functions from the Haskell module |Math.OEIS|\footnote{To run this literate haskell file, 
+you need to have the module |Math.OEIS| installed. You can download it at \url{http://hackage.haskell.org/cgi-bin/hackage-scripts/package/oeis}.} 
+to search for occurrences of the Eisenstein array on the Online Encyclopedia of Integer Sequences (OEIS) \cite{sloane-integers}.
+
+We start by defining the number of elements, |numElems|, that we want to send to the OEIS, and a function that
+converts a list $[\,x_1,\cdots,x_n\,]$ to the string $"\,x_1,\cdots,x_n\,"$:
+
+> numElems  :: Int
+> numElems  = 20
+
+> list2string  :: (Show a) => [a] -> String
+> list2string  =  init . tail . show
+
+The following function, |oeis|, receives two integer numbers, |m| and |n|, computes the list of the first |numElems| of |ei m n|,
+transforms it into a string and checks if it exists in the OEIS. It prints the description of the sequence, together
+with its reference.
+
+> oeis      :: Integer -> Integer -> IO ()
+> oeis m n  =  do  s <- searchSequence_IO . list2string . (take numElems) $ ei m n
+>                  r <- getDataSeq s
+>                  putStrLn $ "Ei(" ++ show m ++ "," ++ show n ++ "):\n\t" ++ r
+>   where  getDataSeq             :: (Maybe OEISSequence) -> (IO String)
+>          getDataSeq Nothing     =  return "Sequence not found."
+>          getDataSeq (Just seq)  =  return $ (description seq) ++ " ( " ++ (concatMap (++ " ") (catalogNums seq)) ++ ")"
+
+As an example, here is the output for the sequence |ei 1 1|:
+
+\medskip
+\prompt{oeis 1 1}
+\noindent\begin{verbatim}
+Ei(1,1):
+        Triangle T(n,k) = denominator of fraction in k-th term of n-th row of
+variant of Farey series. This is also Stern's diatomic array read by
+rows (version 1). ( A049456 )
+\end{verbatim}
+%\eval{oeis 1 1}
 
 
 

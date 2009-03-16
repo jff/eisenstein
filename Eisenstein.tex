@@ -1,6 +1,7 @@
-\documentclass{article}[12pt]
+\documentclass[leqno,fleqn,12pt]{article}
 
-\usepackage{beton,url,a4wide}
+\usepackage{euler,beton,concrete,url,a4wide}
+\usepackage[T1]{fontenc}
 
 %% ODER: format ==         = "\mathrel{==}"
 %% ODER: format /=         = "\neq "
@@ -82,7 +83,7 @@
 \visiblecomments
 
 \newlength{\blanklineskip}
-\setlength{\blanklineskip}{0.66084ex}
+\setlength{\blanklineskip}{1mm}
 
 \newcommand{\hsindent}[1]{\quad}% default is fixed indentation
 \let\hspre\empty
@@ -502,6 +503,91 @@ We can do a similar test for \ensuremath{\Varid{extnewman}} as we did for \ensur
 \prompt{test ei extnewman 100}\\
 \ensuremath{\Conid{True}} %eval takes too long! But I've checked it (02/03/2009)
 %\eval{test ei extnewman 100}
+
+\section{The Online Encyclopedia of Integer Sequences}
+In this section, we show how we can use the functions from the Haskell module \ensuremath{\Conid{\Conid{Math}.OEIS}}\footnote{To run this literate haskell file, 
+you need to have the module \ensuremath{\Conid{\Conid{Math}.OEIS}} installed. You can download it at \url{http://hackage.haskell.org/cgi-bin/hackage-scripts/package/oeis}.} 
+to search for occurrences of the Eisenstein array on the Online Encyclopedia of Integer Sequences (OEIS) \cite{sloane-integers}.
+
+We start by defining the number of elements, \ensuremath{\Varid{numElems}}, that we want to send to the OEIS, and a function that
+converts a list $[\,x_1,\cdots,x_n\,]$ to the string $"\,x_1,\cdots,x_n\,"$:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{numElems}{}\<[13]%
+\>[13]{}\mathbin{::}\Conid{Int}{}\<[E]%
+\\
+\>[3]{}\Varid{numElems}{}\<[13]%
+\>[13]{}\mathrel{=}\mathrm{20}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{16}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{19}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{list2string}{}\<[16]%
+\>[16]{}\mathbin{::}(\Conid{Show}\;\Varid{a})\Rightarrow [\mskip1.5mu \Varid{a}\mskip1.5mu]\to \Conid{String}{}\<[E]%
+\\
+\>[3]{}\Varid{list2string}{}\<[16]%
+\>[16]{}\mathrel{=}{}\<[19]%
+\>[19]{}\Varid{init}\mathbin{\circ}\Varid{tail}\mathbin{\circ}\Varid{show}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+The following function, \ensuremath{\Varid{oeis}}, receives two integer numbers, \ensuremath{\Varid{m}} and \ensuremath{\Varid{n}}, computes the list of the first \ensuremath{\Varid{numElems}} of \ensuremath{\Varid{ei}\;\Varid{m}\;\Varid{n}},
+transforms it into a string and checks if it exists in the OEIS. It prints the description of the sequence, together
+with its reference.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{12}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{16}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{20}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{35}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{38}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\Varid{oeis}{}\<[13]%
+\>[13]{}\mathbin{::}\Conid{Integer}\to \Conid{Integer}\to \Conid{IO}\;(){}\<[E]%
+\\
+\>[3]{}\Varid{oeis}\;\Varid{m}\;\Varid{n}{}\<[13]%
+\>[13]{}\mathrel{=}{}\<[16]%
+\>[16]{}\mathbf{do}\;{}\<[20]%
+\>[20]{}\Varid{s}\leftarrow \Varid{searchSequence\char95 IO}\mathbin{\circ}\Varid{list2string}\mathbin{\circ}(\Varid{take}\;\Varid{numElems})\ \Varid{ei}\;\Varid{m}\;\Varid{n}{}\<[E]%
+\\
+\>[20]{}\Varid{r}\leftarrow \Varid{getDataSeq}\;\Varid{s}{}\<[E]%
+\\
+\>[20]{}\Varid{putStrLn}\ \text{\tt \char34 Ei(\char34}\plus \Varid{show}\;\Varid{m}\plus \text{\tt \char34 ,\char34}\plus \Varid{show}\;\Varid{n}\plus \text{\tt \char34 ):\char92 n\char92 t\char34}\plus \Varid{r}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\mathbf{where}\;{}\<[12]%
+\>[12]{}\Varid{getDataSeq}{}\<[35]%
+\>[35]{}\mathbin{::}(\Conid{Maybe}\;\Conid{OEISSequence})\to (\Conid{IO}\;\Conid{String}){}\<[E]%
+\\
+\>[12]{}\Varid{getDataSeq}\;\Conid{Nothing}{}\<[35]%
+\>[35]{}\mathrel{=}{}\<[38]%
+\>[38]{}\Varid{return}\;\text{\tt \char34 Sequence~not~found.\char34}{}\<[E]%
+\\
+\>[12]{}\Varid{getDataSeq}\;(\Conid{Just}\;\Varid{seq}){}\<[35]%
+\>[35]{}\mathrel{=}{}\<[38]%
+\>[38]{}\Varid{return}\ (\Varid{description}\;\Varid{seq})\plus \text{\tt \char34 ~(~\char34}\plus (\Varid{concatMap}\;(\plus \text{\tt \char34 ~\char34})\;(\Varid{catalogNums}\;\Varid{seq}))\plus \text{\tt \char34 )\char34}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+As an example, here is the output for the sequence \ensuremath{\Varid{ei}\;\mathrm{1}\;\mathrm{1}}:
+
+\medskip
+\prompt{oeis 1 1}
+\noindent\begin{tabbing}\tt
+~Ei\char40{}1\char44{}1\char41{}\char58{}\\
+\tt ~~~~~~~~~Triangle~T\char40{}n\char44{}k\char41{}~\char61{}~denominator~of~fraction~in~k\char45{}th~term~of~n\char45{}th~row~of\\
+\tt ~variant~of~Farey~series\char46{}~This~is~also~Stern\char39{}s~diatomic~array~read~by\\
+\tt ~rows~\char40{}version~1\char41{}\char46{}~\char40{}~A049456~\char41{}
+\end{tabbing}
+%\eval{oeis 1 1}
 
 
 
