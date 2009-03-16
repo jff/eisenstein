@@ -475,6 +475,7 @@ variable \ensuremath{\Varid{r}}:
 \column{4}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{11}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{29}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{41}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{44}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{48}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -487,8 +488,8 @@ variable \ensuremath{\Varid{r}}:
 \>[11]{}\Varid{loop}\;\Varid{r}\;\Varid{m}\;\Varid{n}\;\Varid{cm}\;\Varid{cn}{}\<[29]%
 \>[29]{}\mid ((\Varid{m}==(\Varid{cm}\mathbin{+}\Varid{r}\mskip-4mu\times\mskip-4mu\Varid{cn}))\mathrel{\wedge}(\Varid{n}==\Varid{cn}))\mathrel{=}{}\<[E]%
 \\
-\>[29]{}\hsindent{15}{}\<[44]%
-\>[44]{}\Varid{n}\mathbin{:}\Varid{cm}\mathbin{:}\Varid{loop}\;(\Varid{r}\mathbin{+}\mathrm{1})\;\Varid{cm}\;((\Varid{r}\mathbin{+}\mathrm{1})\mskip-4mu\times\mskip-4mu\Varid{cm}\mathbin{+}\Varid{cn})\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\>[29]{}\hsindent{12}{}\<[41]%
+\>[41]{}\Varid{n}\mathbin{:}\Varid{cm}\mathbin{:}\Varid{loop}\;(\Varid{r}\mathbin{+}\mathrm{1})\;\Varid{cm}\;((\Varid{r}\mathbin{+}\mathrm{1})\mskip-4mu\times\mskip-4mu\Varid{cm}\mathbin{+}\Varid{cn})\;\Varid{cm}\;\Varid{cn}{}\<[E]%
 \\
 \>[29]{}\mid \Varid{otherwise}\mathrel{=}{}\<[44]%
 \>[44]{}\mathbf{let}\;\Varid{k}\mathrel{=}\mathrm{2}\mskip-4mu\times\mskip-4mu\lfloor\Varid{m}/\Varid{n}\rfloor\mathbin{+}\mathrm{1}{}\<[E]%
@@ -505,8 +506,8 @@ We can do a similar test for \ensuremath{\Varid{extnewman}} as we did for \ensur
 %\eval{test ei extnewman 100}
 
 \section{The Online Encyclopedia of Integer Sequences}
-In this section, we show how we can use the functions from the Haskell module \ensuremath{\Conid{\Conid{Math}.OEIS}}\footnote{To run this literate haskell file, 
-you need to have the module \ensuremath{\Conid{\Conid{Math}.OEIS}} installed. You can download it at \url{http://hackage.haskell.org/cgi-bin/hackage-scripts/package/oeis}.} 
+In this section, we show how we can use the functions from the Haskell module \ensuremath{\Conid{\Conid{Math}.OEIS}}\footnote{To run this literate Haskell file, 
+you need to have the module \ensuremath{\Conid{\Conid{Math}.OEIS}} installed. You can download it from \url{http://hackage.haskell.org/cgi-bin/hackage-scripts/package/oeis}.} 
 to search for occurrences of the Eisenstein array on the Online Encyclopedia of Integer Sequences (OEIS) \cite{sloane-integers}.
 
 We start by defining the number of elements, \ensuremath{\Varid{numElems}}, that we want to send to the OEIS, and a function that
@@ -550,6 +551,7 @@ with its reference.
 \column{20}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{35}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{38}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{48}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[3]{}\Varid{oeis}{}\<[13]%
 \>[13]{}\mathbin{::}\Conid{Integer}\to \Conid{Integer}\to \Conid{IO}\;(){}\<[E]%
@@ -574,7 +576,14 @@ with its reference.
 \\
 \>[12]{}\Varid{getDataSeq}\;(\Conid{Just}\;\Varid{seq}){}\<[35]%
 \>[35]{}\mathrel{=}{}\<[38]%
-\>[38]{}\Varid{return}\ (\Varid{description}\;\Varid{seq})\plus \text{\tt \char34 ~(~\char34}\plus (\Varid{concatMap}\;(\plus \text{\tt \char34 ~\char34})\;(\Varid{catalogNums}\;\Varid{seq}))\plus \text{\tt \char34 )\char34}{}\<[E]%
+\>[38]{}\Varid{return}\ {}\<[48]%
+\>[48]{}(\Varid{description}\;\Varid{seq}){}\<[E]%
+\\
+\>[48]{}\plus \text{\tt \char34 ~(~\char34}{}\<[E]%
+\\
+\>[48]{}\plus (\Varid{concatMap}\;(\plus \text{\tt \char34 ~\char34})\;(\Varid{catalogNums}\;\Varid{seq})){}\<[E]%
+\\
+\>[48]{}\plus \text{\tt \char34 )\char34}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 As an example, here is the output for the sequence \ensuremath{\Varid{ei}\;\mathrm{1}\;\mathrm{1}}:

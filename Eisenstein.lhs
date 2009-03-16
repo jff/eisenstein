@@ -157,7 +157,7 @@ variable |r|:
 > extnewman :: Integer -> Integer -> [Integer]
 > extnewman cm cn = cm: loop 0 cm cn cm cn
 >  where  loop r m n cm cn  | ((m==(cm+r*cn)) && (n==cn)) =  
->                                          n: cm: loop (r+1) cm ((r+1)*cm+cn) cm cn
+>                                       n: cm: loop (r+1) cm ((r+1)*cm+cn) cm cn
 >                           | otherwise =  let k = 2*floor(m%n)+1
 >                                          in  n: loop r n (k*n-m) cm cn
 
@@ -169,8 +169,8 @@ We can do a similar test for |extnewman| as we did for |ei'|:
 %\eval{test ei extnewman 100}
 
 \section{The Online Encyclopedia of Integer Sequences}
-In this section, we show how we can use the functions from the Haskell module |Math.OEIS|\footnote{To run this literate haskell file, 
-you need to have the module |Math.OEIS| installed. You can download it at \url{http://hackage.haskell.org/cgi-bin/hackage-scripts/package/oeis}.} 
+In this section, we show how we can use the functions from the Haskell module |Math.OEIS|\footnote{To run this literate Haskell file, 
+you need to have the module |Math.OEIS| installed. You can download it from \url{http://hackage.haskell.org/cgi-bin/hackage-scripts/package/oeis}.} 
 to search for occurrences of the Eisenstein array on the Online Encyclopedia of Integer Sequences (OEIS) \cite{sloane-integers}.
 
 We start by defining the number of elements, |numElems|, that we want to send to the OEIS, and a function that
@@ -192,7 +192,10 @@ with its reference.
 >                  putStrLn $ "Ei(" ++ show m ++ "," ++ show n ++ "):\n\t" ++ r
 >   where  getDataSeq             :: (Maybe OEISSequence) -> (IO String)
 >          getDataSeq Nothing     =  return "Sequence not found."
->          getDataSeq (Just seq)  =  return $ (description seq) ++ " ( " ++ (concatMap (++ " ") (catalogNums seq)) ++ ")"
+>          getDataSeq (Just seq)  =  return $  (description seq)
+>                                              ++ " ( " 
+>                                              ++ (concatMap (++ " ") (catalogNums seq))
+>                                              ++ ")"
 
 As an example, here is the output for the sequence |ei 1 1|:
 
