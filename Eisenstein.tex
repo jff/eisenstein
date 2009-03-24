@@ -83,7 +83,7 @@
 \visiblecomments
 
 \newlength{\blanklineskip}
-\setlength{\blanklineskip}{0.66084ex}
+\setlength{\blanklineskip}{1mm}
 
 \newcommand{\hsindent}[1]{\quad}% default is fixed indentation
 \let\hspre\empty
@@ -521,8 +521,8 @@ line. The second command shows an instance of the property:
 
 
 A simplification of \ensuremath{\Varid{ei}} is obtained by replacing
- \ensuremath{\Varid{a}} and \ensuremath{\Varid{b}} by \ensuremath{\Varid{m}} and \ensuremath{\Varid{n}} in the calculation of \ensuremath{\Varid{k}} (when \ensuremath{\Varid{m}} and
-\ensuremath{\Varid{n}} are both positive).  (The justification for this simplification
+ \ensuremath{\Varid{a}} and \ensuremath{\Varid{b}} by \ensuremath{\Varid{m}} and \ensuremath{\Varid{n}} in the calculation of \ensuremath{\Varid{k}} (when 
+\ensuremath{\Varid{n}} is strictly positive).  (The justification for this simplification
 involves induction on rows.  The induction hypothesis is that if
 \ensuremath{(\Varid{a},\Varid{b},\Varid{c})} is a triple (a "driegliedrige Gruppe" in Stern's
 terminology) in a given row of $\mathit{Ei\/}(1{,}1)$ and \ensuremath{(\Varid{i},\Varid{j},\Varid{k})} is
@@ -530,18 +530,35 @@ a triple in the same position in the same row of
 $\mathit{Ei\/}(m{,}n)$, then \ensuremath{\lfloor\Varid{a}/\Varid{b}\rfloor\mathrel{=}\lfloor\Varid{i}/\Varid{j}\rfloor}.  (The role
 of variable \ensuremath{\Varid{c}} in this hypothesis is simply to exclude the last two
 elements in a row.  Indeed, the equality does not hold for these two
-elements. Symmetrically, of course, \ensuremath{\lfloor\Varid{b}/\Varid{c}\rfloor\mathrel{=}\lfloor\Varid{j}/\Varid{k}\rfloor}.) 
+elements. Symmetrically, of course, \ensuremath{\lfloor\Varid{b}/\Varid{c}\rfloor\mathrel{=}\lfloor\Varid{j}/\Varid{k}\rfloor}, provided
+\ensuremath{\Varid{m}} is strictly positive.) 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{21}{@{}>{\hspre}c<{\hspost}@{}}%
+\column{21E}{@{}l@{}}%
+\column{24}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{31}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{35}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{40}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[3]{}\Varid{ei'}\mathbin{::}\Conid{Integer}\to \Conid{Integer}\to [\mskip1.5mu \Conid{Integer}\mskip1.5mu]{}\<[E]%
 \\
-\>[3]{}\Varid{ei'}\;\Varid{m}\;\Varid{n}\mathrel{=}\Varid{m}\mathbin{:}\Varid{eiloop}\;\mathrm{1}\;\mathrm{1}\;\Varid{m}\;\Varid{n}\;\Varid{m}\;\Varid{n}{}\<[E]%
+\>[3]{}\Varid{ei'}\;\Varid{m}\;\Varid{n}{}\<[E]%
+\\
+\>[3]{}\hsindent{5}{}\<[8]%
+\>[8]{}\mid \Varid{n}\mathbin{>}\mathrm{0}{}\<[21]%
+\>[21]{}\mathrel{=}{}\<[21E]%
+\>[24]{}\Varid{m}\mathbin{:}\Varid{eiloop}\;\mathrm{1}\;\mathrm{1}\;\Varid{m}\;\Varid{n}\;\Varid{m}\;\Varid{n}{}\<[E]%
+\\
+\>[3]{}\hsindent{5}{}\<[8]%
+\>[8]{}\mid \Varid{otherwise}{}\<[21]%
+\>[21]{}\mathrel{=}{}\<[21E]%
+\>[24]{}\Varid{error}\;{}\<[31]%
+\>[31]{}\text{\tt \char34 The~second~argument~has~to~be~strictly~positive.\char34}{}\<[E]%
 \\
 \>[3]{}\hsindent{1}{}\<[4]%
 \>[4]{}\mathbf{where}\;{}\<[11]%
@@ -585,7 +602,11 @@ and \ensuremath{(\Varid{r}\mathbin{+}\mathrm{1})\mskip-4mu\times\mskip-4mu\Varid
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{20}{@{}>{\hspre}c<{\hspost}@{}}%
+\column{20E}{@{}l@{}}%
+\column{23}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{29}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{41}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{44}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -593,7 +614,16 @@ and \ensuremath{(\Varid{r}\mathbin{+}\mathrm{1})\mskip-4mu\times\mskip-4mu\Varid
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[3]{}\Varid{extnewman}\mathbin{::}\Conid{Integer}\to \Conid{Integer}\to [\mskip1.5mu \Conid{Integer}\mskip1.5mu]{}\<[E]%
 \\
-\>[3]{}\Varid{extnewman}\;\Varid{cm}\;\Varid{cn}\mathrel{=}\Varid{cm}\mathbin{:}\Varid{loop}\;\mathrm{0}\;\Varid{cm}\;\Varid{cn}\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\>[3]{}\Varid{extnewman}\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\\
+\>[3]{}\hsindent{5}{}\<[8]%
+\>[8]{}\mid \Varid{cn}\mathbin{>}\mathrm{0}{}\<[20]%
+\>[20]{}\mathrel{=}{}\<[20E]%
+\>[23]{}\Varid{cm}\mathbin{:}\Varid{loop}\;\mathrm{0}\;\Varid{cm}\;\Varid{cn}\;\Varid{cm}\;\Varid{cn}{}\<[E]%
+\\
+\>[3]{}\hsindent{5}{}\<[8]%
+\>[8]{}\mid \Varid{otherwise}\mathrel{=}{}\<[23]%
+\>[23]{}\Varid{error}\;\text{\tt \char34 The~second~argument~has~to~be~strictly~positive.\char34}{}\<[E]%
 \\
 \>[3]{}\hsindent{1}{}\<[4]%
 \>[4]{}\mathbf{where}\;{}\<[11]%
@@ -623,7 +653,7 @@ section, we show how we can use the functions from the Haskell module
 \ensuremath{\Conid{\Conid{Math}.OEIS}}\footnote{To run this literate Haskell file, you need to
 have the module \ensuremath{\Conid{\Conid{Math}.OEIS}} installed. You can download it from
 \url{http://hackage.haskell.org/cgi-bin/hackage-scripts/package/oeis}.}
-to search for occurrences of the Eisenstein array on the Online
+to search for occurrences of the Eisenstein array in the Online
 Encyclopedia of Integer Sequences (OEIS) \cite{sloane-integers}.
 
 We start by defining the number of elements, \ensuremath{\Varid{numElems}}, that we want
@@ -718,8 +748,29 @@ As an example, here is the output for the sequence \ensuremath{\Varid{ei}\;\math
 \end{tabbing}
 %\eval{oeis 1 1}
 
-%\section{Summary}
-%***Summarise what was obtained***
+Finally, using the function \ensuremath{\Varid{oeis}}, we have searched which instances of $\mathit{Ei\/}(m{,}n)$, with $0{\leq}m{<}100$ and $0{<}n{<}100$, are listed in the OEIS.  The occurrences found are listed below:
+
+\begin{description}
+\item{$\mathit{Ei\/}(0,1)$:}
+        Triangle read by rows: T(n,k) = numerator of fraction in k-th term of n-th row of variant of Farey series. ( A049455 )
+\item{$\mathit{Ei\/}(1,0)$:}
+        Stern's diatomic array read by rows (version 2). ( A070878 )
+\item{$\mathit{Ei\/}(1,1)$:}
+        Triangle T(n,k) = denominator of fraction in k-th term of n-th row of variant of Farey series. This isalso Stern's diatomic array read by rows (version 1). ( A049456 )
+\item{$\mathit{Ei\/}(1,2)$:}
+        Eisenstein array $\mathit{Ei\/}(1,2)$. ( A064881 )
+\item{$\mathit{Ei\/}(1,3)$:}
+        Eisenstein array $\mathit{Ei\/}(1,3)$. ( A064883 )
+\item{$\mathit{Ei\/}(2,1)$:}
+        Eisenstein array $\mathit{Ei\/}(2,1)$. ( A064882 )
+\item{$\mathit{Ei\/}(2,3)$:}
+        Eisenstein array $\mathit{Ei\/}(2,3)$. ( A064886 )
+\item{$\mathit{Ei\/}(3,1)$:}
+        Eisenstein array $\mathit{Ei\/}(3,1)$. ( A064884 )
+\item{$\mathit{Ei\/}(3,2)$:}
+        Eisenstein array $\mathit{Ei\/}(3,2)$. ( A064885 ) 
+\end{description}
+
 
 
 \bibliographystyle{plain}

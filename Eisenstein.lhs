@@ -201,8 +201,8 @@ line. The second command shows an instance of the property:
 
 
 A simplification of |ei| is obtained by replacing
- |a| and |b| by |m| and |n| in the calculation of |k| (when |m| and
-|n| are both positive).  (The justification for this simplification
+ |a| and |b| by |m| and |n| in the calculation of |k| (when 
+|n| is strictly positive).  (The justification for this simplification
 involves induction on rows.  The induction hypothesis is that if
 |(a,b,c)| is a triple (a "driegliedrige Gruppe" in Stern's
 terminology) in a given row of $\mathit{Ei\/}(1{,}1)$ and |(i,j,k)| is
@@ -210,10 +210,13 @@ a triple in the same position in the same row of
 $\mathit{Ei\/}(m{,}n)$, then |floor(a%b) = floor(i%j)|.  (The role
 of variable |c| in this hypothesis is simply to exclude the last two
 elements in a row.  Indeed, the equality does not hold for these two
-elements. Symmetrically, of course, |floor(b%c) = floor(j%k)|.) 
+elements. Symmetrically, of course, |floor(b%c) = floor(j%k)|, provided
+|m| is strictly positive.) 
 
 > ei' :: Integer -> Integer -> [Integer]
-> ei' m n = m : eiloop 1 1 m n m n
+> ei' m n  
+>      | n > 0      =  m : eiloop 1 1 m n m n
+>      | otherwise  =  error  "The second argument has to be strictly positive."
 >  where  eiloop a 1 m n cm cn =  n : cm : eiloop 1 (a+1) cm (a*cm+cn) cm cn
 >         eiloop a b m n cm cn =  let  k = 2*floor(m%n)+1
 >                                 in   n: eiloop b (k*b-a) n (k*n-m) cm cn
@@ -241,7 +244,9 @@ The last two elements in row |r| of $\mathit{Ei\/}(cm{,}cn)$ are
 and |(r+1)*cm+cn|.
 
 > extnewman :: Integer -> Integer -> [Integer]
-> extnewman cm cn = cm: loop 0 cm cn cm cn
+> extnewman cm cn  
+>      | cn > 0    =  cm: loop 0 cm cn cm cn
+>      | otherwise =  error "The second argument has to be strictly positive."
 >  where  loop r m n cm cn  | ((m==(cm+r*cn)) && (n==cn)) =  
 >                                       n: cm: loop (r+1) cm ((r+1)*cm+cn) cm cn
 >                           | otherwise =  let  k = 2*floor(m%n)+1
@@ -259,7 +264,7 @@ section, we show how we can use the functions from the Haskell module
 |Math.OEIS|\footnote{To run this literate Haskell file, you need to
 have the module |Math.OEIS| installed. You can download it from
 \url{http://hackage.haskell.org/cgi-bin/hackage-scripts/package/oeis}.}
-to search for occurrences of the Eisenstein array on the Online
+to search for occurrences of the Eisenstein array in the Online
 Encyclopedia of Integer Sequences (OEIS) \cite{sloane-integers}.
 
 We start by defining the number of elements, |numElems|, that we want
@@ -301,8 +306,29 @@ rows (version 1). ( A049456 )
 \end{verbatim}
 %\eval{oeis 1 1}
 
-%\section{Summary}
-%***Summarise what was obtained***
+Finally, using the function |oeis|, we have searched which instances of $\mathit{Ei\/}(m{,}n)$, with $0{\leq}m{<}100$ and $0{<}n{<}100$, are listed in the OEIS.  The occurrences found are listed below:
+
+\begin{description}
+\item{$\mathit{Ei\/}(0,1)$:}
+        Triangle read by rows: T(n,k) = numerator of fraction in k-th term of n-th row of variant of Farey series. ( A049455 )
+\item{$\mathit{Ei\/}(1,0)$:}
+        Stern's diatomic array read by rows (version 2). ( A070878 )
+\item{$\mathit{Ei\/}(1,1)$:}
+        Triangle T(n,k) = denominator of fraction in k-th term of n-th row of variant of Farey series. This isalso Stern's diatomic array read by rows (version 1). ( A049456 )
+\item{$\mathit{Ei\/}(1,2)$:}
+        Eisenstein array $\mathit{Ei\/}(1,2)$. ( A064881 )
+\item{$\mathit{Ei\/}(1,3)$:}
+        Eisenstein array $\mathit{Ei\/}(1,3)$. ( A064883 )
+\item{$\mathit{Ei\/}(2,1)$:}
+        Eisenstein array $\mathit{Ei\/}(2,1)$. ( A064882 )
+\item{$\mathit{Ei\/}(2,3)$:}
+        Eisenstein array $\mathit{Ei\/}(2,3)$. ( A064886 )
+\item{$\mathit{Ei\/}(3,1)$:}
+        Eisenstein array $\mathit{Ei\/}(3,1)$. ( A064884 )
+\item{$\mathit{Ei\/}(3,2)$:}
+        Eisenstein array $\mathit{Ei\/}(3,2)$. ( A064885 ) 
+\end{description}
+
 
 
 \bibliographystyle{plain}
